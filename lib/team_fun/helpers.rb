@@ -14,7 +14,7 @@ module ::TeamFun::Helpers
         
     form =  "<form method='#{options.delete(:method)||'post'}'#{options_to_attributes(options)}>\n"
     form << haml_indent << "  <input type='hidden' name='_method' value='#{method}' />\n" if method
-    block = capture_haml(FormBuilder.new(options, object, self), &block)
+    block = capture_haml(::TeamFun::FormBuilder.new(options, object, self), &block)
     block.each_line do |line|
       form << haml_indent + '  ' + line
     end
