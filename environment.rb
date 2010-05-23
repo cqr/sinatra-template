@@ -15,7 +15,9 @@ end
 
 Environment.reload!
 
-ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => "db/#{ENV['RACK_ENV'].downcase.underscore}.sqlite.db")
+dbconfig = YAML.load(File.read('config/database.yml'))
+
+ActiveRecord::Base.establish_connection dbconfig[ENV['RACK_ENV'].downcase.underscore]
 
 
 configure :development do
