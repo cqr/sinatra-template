@@ -4,7 +4,11 @@ source :gemcutter
 gem 'sinatra'
 gem 'activerecord', :require => 'active_record'
 gem 'haml'
-gem 'sqlite3'
+if RUBY_VERSION.to_f < 1.9
+  gem 'sqlite3-ruby'
+else
+  gem 'sqlite3'
+end
 
 # You can add your own gems to this file
 # and then run bundle install to make sure they
