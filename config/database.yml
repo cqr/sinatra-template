@@ -1,0 +1,13 @@
+# Edit this file to reflect your database settings
+
+development:
+    adapter: sqlite3
+    database: db/development.sqlite.db
+    
+production:
+    adapter: sqlite3
+    database: db/production.sqlite.db
+    
+test:
+    adapter: sqlite3
+    database: :memory
