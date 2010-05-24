@@ -4,21 +4,47 @@ Bundler.require(:default, (ENV['RACK_ENV'].downcase.intern))
 $: << File.dirname(__FILE__)
 
 class Environment
+  
   def self.reload!
     [:models, :lib].each do |dir|
       Dir[File.join(File.dirname(__FILE__), dir.to_s, '*')].each do |file|
         send(ENV['RACK_ENV'] == 'development' ? :load : :require, file) unless File.directory? file
       end
     end
+    Dir[File.join(File.dirname(__FILE__), 'config', '*.yml')].each do |yaml_file|
+      Config.set(File.basename(yaml_file).sub(/\.yml$/,'').intern,YAML.load(File.read(yaml_file)))
+    end
+    ActiveRecord::Base.establish_connection Config.database[ENV['RACK_ENV'].downcase.underscore]
   end
+  
+  module Config
+    class << self
+      def set(key, value)
+        @store ||= {}
+        @store[key.to_sym] = value
+      end
+    
+      def get(key)
+        @store[key.to_sym]
+      end
+      
+      def [](key)
+        get(key)
+      end
+      
+      def []=(key, value)
+        set(key, value)
+      end
+    
+      def method_missing(key)
+        get(key)
+      end
+    end
+  end
+
 end
 
 Environment.reload!
-
-dbconfig = YAML.load(File.read('config/database.yml'))
-
-ActiveRecord::Base.establish_connection dbconfig[ENV['RACK_ENV'].downcase.underscore]
-
 
 configure :development do
   before do
