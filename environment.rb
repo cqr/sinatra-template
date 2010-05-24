@@ -53,3 +53,5 @@ configure :development do
 end
 
 helpers TeamFun::Helpers
+
+set :root, File.dirname(__FILE__)
