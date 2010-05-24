@@ -56,7 +56,17 @@ team fun form builder
 you get a rails style ``form_for @object`` method. it detects the correct HTTP method
 and uri based on the same criteria of link_to.
 
+configuration hash
+------------------
 
+add a yaml file to your ``config`` directory and it will be automatically parsed and
+available to you in the Environment::Config object. if your file is called ``database.yml``,
+for instance, you can access that hash via ``Environment::Config.database``
+
+Heroku compatible!
+------------------
+
+the default database configuration system is completely compatible with Heroku
 
 how to install
 ==============
