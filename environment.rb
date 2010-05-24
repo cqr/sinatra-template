@@ -7,11 +7,11 @@ class Environment
   
   def self.reload!
     [:models, :lib].each do |dir|
-      Dir[File.join(File.dirname(__FILE__), dir.to_s, '*')].each do |file|
+      Dir[File.join(dir.to_s, '*')].each do |file|
         send(ENV['RACK_ENV'] == 'development' ? :load : :require, file) unless File.directory? file
       end
     end
-    Dir[File.join(File.dirname(__FILE__), 'config', '*.yml')].each do |yaml_file|
+    Dir[File.join('config', '*.yml')].each do |yaml_file|
       Config.set(File.basename(yaml_file).sub(/\.yml$/,'').intern,YAML.load(File.read(yaml_file)))
     end
     ActiveRecord::Base.establish_connection Config.database[ENV['RACK_ENV'].downcase.underscore]

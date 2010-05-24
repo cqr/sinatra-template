@@ -1,2 +1,2 @@
-require File.join(File.dirname(__FILE__), 'application')
+require 'application'
 run Sinatra::Application
