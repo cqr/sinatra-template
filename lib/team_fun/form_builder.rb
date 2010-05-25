@@ -15,7 +15,7 @@ class ::TeamFun::FormBuilder
   def textarea(field)
     "<textarea id='#{obj_id}_#{field.to_s}'" +\
     "#{class_with_errors(field)} name='#{input_name(field)}'>"+\
-    "#{object.send(field).to_s}</textarea>"
+    "#{template.preserve object.send(field).to_s}</textarea>"
   end
   
   def input(type, field)
